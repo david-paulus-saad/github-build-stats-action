@@ -4,544 +4,6 @@ import { fileURLToPath } from 'url';
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 3109:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.run = void 0;
-var process_1 = __nccwpck_require__(7282);
-var core = __importStar(__nccwpck_require__(2186));
-var github = __importStar(__nccwpck_require__(5438));
-var datetime_1 = __nccwpck_require__(4408);
-var github_1 = __nccwpck_require__(6863);
-var stats_1 = __nccwpck_require__(2473);
-var score_1 = __nccwpck_require__(1105);
-var markdown_1 = __nccwpck_require__(3274);
-var PERCENTILE_HELP_LINK = 'https://medium.com/last9/your-percentiles-are-incorrect-p99-of-the-times-11436c97d524';
-/**
- * Collect information about all workflow runs on the repository
- * and build statistics, comparing the historical run times with
- * the latest run.
- *
- * @param options Input options.
- * @returns PR comment body.
- */
-function run(_a) {
-    var _b, _c;
-    var githubToken = _a.githubToken, context = _a.context, workflowId = _a.workflowId, pullRequestNumber = _a.pullRequestNumber, repos = _a.repos;
-    return __awaiter(this, void 0, void 0, function () {
-        var prNumber, repository, startFetch_1, runDataMultiple, commentBody_1, octokit, newComment, error_1, _d, name, message;
-        return __generator(this, function (_e) {
-            switch (_e.label) {
-                case 0:
-                    _e.trys.push([0, 2, , 3]);
-                    core.debug("GitHub context: ".concat(JSON.stringify(context, null, 2)));
-                    prNumber = pullRequestNumber || (0, github_1.getPullRequestNumber)(context);
-                    if (!prNumber) {
-                        core.setFailed('No pull request found.');
-                        return [2 /*return*/];
-                    }
-                    repository = {
-                        owner: (_b = context.payload.repository) === null || _b === void 0 ? void 0 : _b.owner.login,
-                        repo: (_c = context.payload.repository) === null || _c === void 0 ? void 0 : _c.name,
-                    };
-                    core.debug("Repository: ".concat(JSON.stringify(repository, null, 2)));
-                    startFetch_1 = process_1.hrtime.bigint();
-                    return [4 /*yield*/, (0, github_1.getWorkflowRuns)(githubToken, workflowId, repository, repos)];
-                case 1:
-                    runDataMultiple = _e.sent();
-                    commentBody_1 = [];
-                    runDataMultiple.forEach(function (runData) {
-                        var endFetch = process_1.hrtime.bigint();
-                        core.debug("Finished fetching ".concat(runData.length, " workflow runs from GitHub API: ").concat(Number(endFetch - startFetch_1) / 1000000, " milliseconds"));
-                        core.debug("Worflow run data: ".concat(JSON.stringify(runData, null, 2)));
-                        var latestRunTime = (0, datetime_1.diff)(runData[0].created_at, runData[0].updated_at);
-                        var runTimeStats = (0, stats_1.getWorkflowRunStats)(runData, latestRunTime);
-                        core.debug("Finished collecting build statistics: ".concat(JSON.stringify(runTimeStats)));
-                        var outputTable = (0, markdown_1.buildMarkdownTable)([
-                            [
-                                'Fastest',
-                                'Average',
-                                "[p90](".concat(PERCENTILE_HELP_LINK, ")"),
-                                "[p99](".concat(PERCENTILE_HELP_LINK, ")"),
-                                'Slowest',
-                            ],
-                            [
-                                runTimeStats.min,
-                                runTimeStats.avg,
-                                runTimeStats.p90,
-                                runTimeStats.p99,
-                                runTimeStats.max,
-                            ].map(function (ms) {
-                                return "".concat(ms, " ms (").concat((0, datetime_1.humanise)({
-                                    milliseconds: ms,
-                                }), ")");
-                            }),
-                        ]);
-                        commentBody_1 = [
-                            "The workflow run took `".concat(latestRunTime, "` milliseconds (").concat((0, datetime_1.humanise)({
-                                milliseconds: latestRunTime,
-                            }), "), and was faster than ").concat((0, score_1.getSpeedScore)(runTimeStats.percentile), " **").concat(100 - runTimeStats.percentile, "%** of the past ").concat(runData.length, " workflow runs."),
-                            "".concat(outputTable),
-                        ];
-                        core.setOutput('stats', runTimeStats);
-                    });
-                    octokit = github.getOctokit(githubToken);
-                    newComment = octokit.rest.issues.createComment(__assign(__assign({}, repository), { issue_number: prNumber, body: commentBody_1.join('\n') }));
-                    core.debug("Create comment result: ".concat(JSON.stringify(newComment, null, 2)));
-                    return [2 /*return*/, commentBody_1];
-                case 2:
-                    error_1 = _e.sent();
-                    _d = error_1, name = _d.name, message = _d.message;
-                    core.setFailed("Error ".concat(name, " \u2013 ").concat(message));
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
-            }
-        });
-    });
-}
-exports.run = run;
-/* istanbul ignore next */
-if (require.main === require.cache[eval('__filename')]) {
-    var githubToken_1 = core.getInput('token', {
-        required: true,
-    });
-    var workflowId_1 = core.getInput('workflowId', {
-        required: true,
-    });
-    var pullRequestNumber_1 = core.getInput('pullRequest', {
-        required: false,
-    });
-    var context_1 = github.context;
-    var repos_1 = core.getInput('repos', {
-        required: true,
-    });
-    (function () { return __awaiter(void 0, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, run({
-                        githubToken: githubToken_1,
-                        context: context_1,
-                        workflowId: workflowId_1,
-                        pullRequestNumber: pullRequestNumber_1
-                            ? parseInt(pullRequestNumber_1, 10)
-                            : undefined,
-                        repos: repos_1,
-                    })];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
-        });
-    }); })();
-}
-
-
-/***/ }),
-
-/***/ 4408:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.humanise = exports.diff = void 0;
-var dayjs_1 = __importDefault(__nccwpck_require__(7401));
-var duration_1 = __importDefault(__nccwpck_require__(5657));
-var relativeTime_1 = __importDefault(__nccwpck_require__(461));
-dayjs_1.default.extend(duration_1.default);
-dayjs_1.default.extend(relativeTime_1.default);
-/**
- * Returns time difference between 2 time fields.
- *
- * @param timeA Starting time.
- * @param timeB Ending time.
- * @param options (Optional) Additional options.
- * @returns Time difference.
- */
-var diff = function (timeA, timeB, options) {
-    var started = (0, dayjs_1.default)(timeA);
-    var ended = (0, dayjs_1.default)(timeB);
-    var diff = ended.diff(started, (options === null || options === void 0 ? void 0 : options.unit) ? options.unit : undefined, (options === null || options === void 0 ? void 0 : options.float) ? options.float : undefined);
-    return diff;
-};
-exports.diff = diff;
-/**
- * Humanises a time duration.
- *
- * @param duration Time duration.
- * @returns Human-readable time duration.
- */
-var humanise = function (duration) {
-    return dayjs_1.default.duration(duration).humanize();
-};
-exports.humanise = humanise;
-
-
-/***/ }),
-
-/***/ 6863:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getWorkflowRuns = exports.getPullRequestNumber = void 0;
-var rest_1 = __nccwpck_require__(5375);
-var pkg = __importStar(__nccwpck_require__(2876));
-var USER_AGENT = "".concat(pkg.name, "/").concat(pkg.version);
-/**
- * Gets pull request number from GitHub Action context.
- *
- * Supports a few methods (triggering via `workflow_run` event, triggering
- * via a custom `repository_dispatch` event and triggering in the same workflow).
- *
- * @param context GitHub context available in the workflow run.
- * @returns Pull request number for the originating PR.
- */
-var getPullRequestNumber = function (context) {
-    var _a, _b, _c;
-    var payload = context.payload;
-    if (context.eventName === 'workflow_run') {
-        return (((_a = payload.workflow_run.pull_requests[0]) === null || _a === void 0 ? void 0 : _a.number) || null);
-    }
-    else if (context.eventName === 'repository_dispatch') {
-        return Number((_b = payload.client_payload.pull_request) === null || _b === void 0 ? void 0 : _b.number);
-    }
-    else if (context.eventName === 'pull_request') {
-        return (_c = payload.pull_request) === null || _c === void 0 ? void 0 : _c.number;
-    }
-    return null;
-};
-exports.getPullRequestNumber = getPullRequestNumber;
-/**
- * Fetches all GitHub Actions workflow runs.
- *
- * @param githubToken GitHub access token.
- * @param workflowId ID of workflow for which you need run data; use the numeric ID or the workflow YAML file's name.
- * @param repository Repository information.
- * @returns Workflow run data.
- */
-var getWorkflowRuns = function (githubToken, workflowId, repository, repos) { return __awaiter(void 0, void 0, void 0, function () {
-    var octokit, results, repositories;
-    return __generator(this, function (_a) {
-        octokit = new rest_1.Octokit({
-            auth: githubToken,
-            userAgent: USER_AGENT,
-        });
-        results = [];
-        repositories = repos.split(',');
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        repositories.forEach(function (repo) { return __awaiter(void 0, void 0, void 0, function () {
-            var result;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, octokit.paginate(octokit.actions.listWorkflowRunsForRepo, {
-                            owner: repository.owner,
-                            repo: repo,
-                            status: 'completed',
-                            per_page: 100,
-                        })];
-                    case 1:
-                        result = _a.sent();
-                        results.push(result);
-                        return [2 /*return*/];
-                }
-            });
-        }); });
-        return [2 /*return*/, results];
-    });
-}); };
-exports.getWorkflowRuns = getWorkflowRuns;
-
-
-/***/ }),
-
-/***/ 3274:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.buildMarkdownTable = void 0;
-/**
- * Builds a very simple Markdown table for the given table data.
- *
- * ```javascript
- * const tableData = [
- *  ['Color', 'Hex'],
- *  ['Red', '#FF0000'],
- *  ['Yellow', '#FFFF00']
- * ]
- *
- * console.log(buildMarkdownTable(tableData))
- *
- * // | Color | Hex |
- * // | - | - |
- * // | Red | #FF0000 |
- * // | Yellow | #FFF00 |
- * ```
- * @param tableData Table data
- * @returns Markdown table string
- */
-var buildMarkdownTable = function (tableData) {
-    var lines = tableData.map(function (row) {
-        return "| ".concat(row.join(' | '), " |");
-    });
-    lines.splice(1, 0, "| ".concat(Array.from(tableData[1]).fill('').join('- | -'), " |"));
-    return lines.join('\n');
-};
-exports.buildMarkdownTable = buildMarkdownTable;
-
-
-/***/ }),
-
-/***/ 1105:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getSpeedScore = exports.SPEED_SCORES = void 0;
-var SPEED_SCORES;
-(function (SPEED_SCORES) {
-    SPEED_SCORES["GREEN"] = "\uD83D\uDFE2";
-    SPEED_SCORES["YELLOW"] = "\uD83D\uDFE1";
-    SPEED_SCORES["AMBER"] = "\uD83D\uDFE0";
-    SPEED_SCORES["RED"] = "\uD83D\uDD34";
-    SPEED_SCORES["UNKNOWN"] = "";
-})(SPEED_SCORES = exports.SPEED_SCORES || (exports.SPEED_SCORES = {}));
-/**
- * Returns a colour-coded score for a given percentile.
- *
- * @param percentile Percentile (higher = slower)
- * @returns Speed score, duh.
- */
-var getSpeedScore = function (percentile) {
-    if (!percentile)
-        return SPEED_SCORES.UNKNOWN;
-    else if (percentile >= 90)
-        return SPEED_SCORES.RED;
-    else if (percentile >= 65)
-        return SPEED_SCORES.AMBER;
-    else if (percentile >= 45)
-        return SPEED_SCORES.YELLOW;
-    else
-        return SPEED_SCORES.GREEN;
-};
-exports.getSpeedScore = getSpeedScore;
-
-
-/***/ }),
-
-/***/ 2473:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getWorkflowRunStats = void 0;
-var percentile_1 = __importDefault(__nccwpck_require__(7439));
-var datetime_1 = __nccwpck_require__(4408);
-/**
- * Round off number to given decimal places.
- 
- * @param number Number to round off.
- * @param decimalPlaces Number of decimal places to round off to. @default 2
- * @returns Number with rounded off decimal places.
- */
-var roundOff = function (number, decimalPlaces) {
-    if (decimalPlaces === void 0) { decimalPlaces = 2; }
-    return (Math.round((number + Number.EPSILON) * Math.pow(10, decimalPlaces)) /
-        Math.pow(10, decimalPlaces));
-};
-/**
- * Remove duplicates from a given array.
- *
- * @param array Array to remove duplicates from.
- * @returns Array without duplicates.
- */
-var removeDuplicates = function (array) {
-    return array.filter(function (value, index, self) {
-        return self.indexOf(value) === index;
-    });
-};
-/**
- * For a given range of numbers and a specific number,
- * returns the percentile where that number falls in the range.
- *
- * @param numberToFind Number to find percentile for.
- * @param numbers Data to calculate the percentile from.
- * @returns Percentile of the number.
- */
-var findPercentile = function (numberToFind, numbers) {
-    var percentileRange = Array.from(Array(101).keys()).filter(function (_) { return _ > 0; });
-    var percentiles = (0, percentile_1.default)(percentileRange, removeDuplicates(numbers));
-    var position = percentiles.reduce(function (prev, curr) {
-        return Math.abs(curr - numberToFind) < Math.abs(prev - numberToFind)
-            ? curr
-            : prev;
-    });
-    return percentileRange[percentiles.lastIndexOf(position)];
-};
-/**
- * Returns workflow run statistics.
- *
- * @param runData Workflow runs data from GitHub.
- * @param latestRunTime The latest workflow run's time (in milliseconds).
- * @returns Workflow run statistics.
- */
-var getWorkflowRunStats = function (runData, latestRunTime) {
-    var runTimes = runData.map(function (r) { return (0, datetime_1.diff)(r.created_at, r.updated_at); });
-    var max = Math.max.apply(Math, runTimes);
-    var min = Math.min.apply(Math, runTimes);
-    var avg = roundOff(runTimes.reduce(function (rt1, rt2) { return rt1 + rt2; }, 0) / runTimes.length);
-    var _a = (0, percentile_1.default)([99, 90, 50], runTimes), p99 = _a[0], p90 = _a[1], p50 = _a[2];
-    var percentile = findPercentile(latestRunTime, runTimes);
-    return {
-        min: min,
-        max: max,
-        avg: avg,
-        p99: p99,
-        p90: p90,
-        p50: p50,
-        percentile: percentile,
-    };
-};
-exports.getWorkflowRunStats = getWorkflowRunStats;
-
-
-/***/ }),
-
 /***/ 7351:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -14123,11 +13585,549 @@ module.exports = require("zlib");
 
 /***/ }),
 
+/***/ 1292:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.run = void 0;
+var process_1 = __nccwpck_require__(7282);
+var core = __importStar(__nccwpck_require__(2186));
+var github = __importStar(__nccwpck_require__(5438));
+var datetime_1 = __nccwpck_require__(4833);
+var github_1 = __nccwpck_require__(3275);
+var stats_1 = __nccwpck_require__(131);
+var score_1 = __nccwpck_require__(4407);
+var markdown_1 = __nccwpck_require__(8023);
+var PERCENTILE_HELP_LINK = 'https://medium.com/last9/your-percentiles-are-incorrect-p99-of-the-times-11436c97d524';
+/**
+ * Collect information about all workflow runs on the repository
+ * and build statistics, comparing the historical run times with
+ * the latest run.
+ *
+ * @param options Input options.
+ * @returns PR comment body.
+ */
+function run(_a) {
+    var _b, _c;
+    var githubToken = _a.githubToken, context = _a.context, workflowId = _a.workflowId, pullRequestNumber = _a.pullRequestNumber, repos = _a.repos;
+    return __awaiter(this, void 0, void 0, function () {
+        var prNumber, repository, startFetch_1, runDataMultiple, commentBody_1, octokit, newComment, error_1, _d, name, message;
+        return __generator(this, function (_e) {
+            switch (_e.label) {
+                case 0:
+                    _e.trys.push([0, 2, , 3]);
+                    core.debug("GitHub context: ".concat(JSON.stringify(context, null, 2)));
+                    prNumber = pullRequestNumber || (0, github_1.getPullRequestNumber)(context);
+                    if (!prNumber) {
+                        core.setFailed('No pull request found.');
+                        return [2 /*return*/];
+                    }
+                    repository = {
+                        owner: (_b = context.payload.repository) === null || _b === void 0 ? void 0 : _b.owner.login,
+                        repo: (_c = context.payload.repository) === null || _c === void 0 ? void 0 : _c.name,
+                    };
+                    core.debug("Repository: ".concat(JSON.stringify(repository, null, 2)));
+                    startFetch_1 = process_1.hrtime.bigint();
+                    return [4 /*yield*/, (0, github_1.getWorkflowRuns)(githubToken, workflowId, repository, repos)];
+                case 1:
+                    runDataMultiple = _e.sent();
+                    commentBody_1 = [];
+                    runDataMultiple.forEach(function (runData) {
+                        var endFetch = process_1.hrtime.bigint();
+                        core.debug("Finished fetching ".concat(runData.length, " workflow runs from GitHub API: ").concat(Number(endFetch - startFetch_1) / 1000000, " milliseconds"));
+                        core.debug("Worflow run data: ".concat(JSON.stringify(runData, null, 2)));
+                        var latestRunTime = (0, datetime_1.diff)(runData[0].created_at, runData[0].updated_at);
+                        var runTimeStats = (0, stats_1.getWorkflowRunStats)(runData, latestRunTime);
+                        core.debug("Finished collecting build statistics: ".concat(JSON.stringify(runTimeStats)));
+                        var outputTable = (0, markdown_1.buildMarkdownTable)([
+                            [
+                                'Fastest',
+                                'Average',
+                                "[p90](".concat(PERCENTILE_HELP_LINK, ")"),
+                                "[p99](".concat(PERCENTILE_HELP_LINK, ")"),
+                                'Slowest',
+                            ],
+                            [
+                                runTimeStats.min,
+                                runTimeStats.avg,
+                                runTimeStats.p90,
+                                runTimeStats.p99,
+                                runTimeStats.max,
+                            ].map(function (ms) {
+                                return "".concat(ms, " ms (").concat((0, datetime_1.humanise)({
+                                    milliseconds: ms,
+                                }), ")");
+                            }),
+                        ]);
+                        commentBody_1 = [
+                            "The workflow run took `".concat(latestRunTime, "` milliseconds (").concat((0, datetime_1.humanise)({
+                                milliseconds: latestRunTime,
+                            }), "), and was faster than ").concat((0, score_1.getSpeedScore)(runTimeStats.percentile), " **").concat(100 - runTimeStats.percentile, "%** of the past ").concat(runData.length, " workflow runs."),
+                            "".concat(outputTable),
+                        ];
+                        core.setOutput('stats', runTimeStats);
+                    });
+                    octokit = github.getOctokit(githubToken);
+                    newComment = octokit.rest.issues.createComment(__assign(__assign({}, repository), { issue_number: prNumber, body: commentBody_1.join('\n') }));
+                    core.debug("Create comment result: ".concat(JSON.stringify(newComment, null, 2)));
+                    return [2 /*return*/, commentBody_1];
+                case 2:
+                    error_1 = _e.sent();
+                    _d = error_1, name = _d.name, message = _d.message;
+                    core.setFailed("Error ".concat(name, " \u2013 ").concat(message));
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.run = run;
+/* istanbul ignore next */
+if (require.main === require.cache[eval('__filename')]) {
+    var githubToken_1 = core.getInput('token', {
+        required: true,
+    });
+    var workflowId_1 = core.getInput('workflowId', {
+        required: true,
+    });
+    var pullRequestNumber_1 = core.getInput('pullRequest', {
+        required: false,
+    });
+    var context_1 = github.context;
+    var repos_1 = core.getInput('repos', {
+        required: true,
+    });
+    (function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, run({
+                        githubToken: githubToken_1,
+                        context: context_1,
+                        workflowId: workflowId_1,
+                        pullRequestNumber: pullRequestNumber_1
+                            ? parseInt(pullRequestNumber_1, 10)
+                            : undefined,
+                        repos: repos_1,
+                    })];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    }); })();
+}
+
+
+/***/ }),
+
+/***/ 4833:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.humanise = exports.diff = void 0;
+var dayjs_1 = __importDefault(__nccwpck_require__(7401));
+var duration_1 = __importDefault(__nccwpck_require__(5657));
+var relativeTime_1 = __importDefault(__nccwpck_require__(461));
+dayjs_1.default.extend(duration_1.default);
+dayjs_1.default.extend(relativeTime_1.default);
+/**
+ * Returns time difference between 2 time fields.
+ *
+ * @param timeA Starting time.
+ * @param timeB Ending time.
+ * @param options (Optional) Additional options.
+ * @returns Time difference.
+ */
+var diff = function (timeA, timeB, options) {
+    var started = (0, dayjs_1.default)(timeA);
+    var ended = (0, dayjs_1.default)(timeB);
+    var diff = ended.diff(started, (options === null || options === void 0 ? void 0 : options.unit) ? options.unit : undefined, (options === null || options === void 0 ? void 0 : options.float) ? options.float : undefined);
+    return diff;
+};
+exports.diff = diff;
+/**
+ * Humanises a time duration.
+ *
+ * @param duration Time duration.
+ * @returns Human-readable time duration.
+ */
+var humanise = function (duration) {
+    return dayjs_1.default.duration(duration).humanize();
+};
+exports.humanise = humanise;
+
+
+/***/ }),
+
+/***/ 3275:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getWorkflowRuns = exports.getPullRequestNumber = void 0;
+var rest_1 = __nccwpck_require__(5375);
+var pkg = __importStar(__nccwpck_require__(2876));
+var USER_AGENT = "".concat(pkg.name, "/").concat(pkg.version);
+/**
+ * Gets pull request number from GitHub Action context.
+ *
+ * Supports a few methods (triggering via `workflow_run` event, triggering
+ * via a custom `repository_dispatch` event and triggering in the same workflow).
+ *
+ * @param context GitHub context available in the workflow run.
+ * @returns Pull request number for the originating PR.
+ */
+var getPullRequestNumber = function (context) {
+    var _a, _b, _c;
+    var payload = context.payload;
+    if (context.eventName === 'workflow_run') {
+        return (((_a = payload.workflow_run.pull_requests[0]) === null || _a === void 0 ? void 0 : _a.number) || null);
+    }
+    else if (context.eventName === 'repository_dispatch') {
+        return Number((_b = payload.client_payload.pull_request) === null || _b === void 0 ? void 0 : _b.number);
+    }
+    else if (context.eventName === 'pull_request') {
+        return (_c = payload.pull_request) === null || _c === void 0 ? void 0 : _c.number;
+    }
+    return null;
+};
+exports.getPullRequestNumber = getPullRequestNumber;
+/**
+ * Fetches all GitHub Actions workflow runs.
+ *
+ * @param githubToken GitHub access token.
+ * @param workflowId ID of workflow for which you need run data; use the numeric ID or the workflow YAML file's name.
+ * @param repository Repository information.
+ * @returns Workflow run data.
+ */
+var getWorkflowRuns = function (githubToken, workflowId, repository, repos) { return __awaiter(void 0, void 0, void 0, function () {
+    var octokit, results, repositories;
+    return __generator(this, function (_a) {
+        octokit = new rest_1.Octokit({
+            auth: githubToken,
+            userAgent: USER_AGENT,
+        });
+        results = [];
+        repositories = repos.split(',');
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        repositories.forEach(function (repo) { return __awaiter(void 0, void 0, void 0, function () {
+            var result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, octokit.paginate(octokit.actions.listWorkflowRunsForRepo, {
+                            owner: repository.owner,
+                            repo: repo,
+                            status: 'completed',
+                            per_page: 100,
+                        })];
+                    case 1:
+                        result = _a.sent();
+                        results.push(result);
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        return [2 /*return*/, results];
+    });
+}); };
+exports.getWorkflowRuns = getWorkflowRuns;
+
+
+/***/ }),
+
+/***/ 8023:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.buildMarkdownTable = void 0;
+/**
+ * Builds a very simple Markdown table for the given table data.
+ *
+ * ```javascript
+ * const tableData = [
+ *  ['Color', 'Hex'],
+ *  ['Red', '#FF0000'],
+ *  ['Yellow', '#FFFF00']
+ * ]
+ *
+ * console.log(buildMarkdownTable(tableData))
+ *
+ * // | Color | Hex |
+ * // | - | - |
+ * // | Red | #FF0000 |
+ * // | Yellow | #FFF00 |
+ * ```
+ * @param tableData Table data
+ * @returns Markdown table string
+ */
+var buildMarkdownTable = function (tableData) {
+    var lines = tableData.map(function (row) {
+        return "| ".concat(row.join(' | '), " |");
+    });
+    lines.splice(1, 0, "| ".concat(Array.from(tableData[1]).fill('').join('- | -'), " |"));
+    return lines.join('\n');
+};
+exports.buildMarkdownTable = buildMarkdownTable;
+
+
+/***/ }),
+
+/***/ 4407:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getSpeedScore = exports.SPEED_SCORES = void 0;
+var SPEED_SCORES;
+(function (SPEED_SCORES) {
+    SPEED_SCORES["GREEN"] = "\uD83D\uDFE2";
+    SPEED_SCORES["YELLOW"] = "\uD83D\uDFE1";
+    SPEED_SCORES["AMBER"] = "\uD83D\uDFE0";
+    SPEED_SCORES["RED"] = "\uD83D\uDD34";
+    SPEED_SCORES["UNKNOWN"] = "";
+})(SPEED_SCORES = exports.SPEED_SCORES || (exports.SPEED_SCORES = {}));
+/**
+ * Returns a colour-coded score for a given percentile.
+ *
+ * @param percentile Percentile (higher = slower)
+ * @returns Speed score, duh.
+ */
+var getSpeedScore = function (percentile) {
+    if (!percentile)
+        return SPEED_SCORES.UNKNOWN;
+    else if (percentile >= 90)
+        return SPEED_SCORES.RED;
+    else if (percentile >= 65)
+        return SPEED_SCORES.AMBER;
+    else if (percentile >= 45)
+        return SPEED_SCORES.YELLOW;
+    else
+        return SPEED_SCORES.GREEN;
+};
+exports.getSpeedScore = getSpeedScore;
+
+
+/***/ }),
+
+/***/ 131:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getWorkflowRunStats = void 0;
+var percentile_1 = __importDefault(__nccwpck_require__(7439));
+var datetime_1 = __nccwpck_require__(4833);
+/**
+ * Round off number to given decimal places.
+ 
+ * @param number Number to round off.
+ * @param decimalPlaces Number of decimal places to round off to. @default 2
+ * @returns Number with rounded off decimal places.
+ */
+var roundOff = function (number, decimalPlaces) {
+    if (decimalPlaces === void 0) { decimalPlaces = 2; }
+    return (Math.round((number + Number.EPSILON) * Math.pow(10, decimalPlaces)) /
+        Math.pow(10, decimalPlaces));
+};
+/**
+ * Remove duplicates from a given array.
+ *
+ * @param array Array to remove duplicates from.
+ * @returns Array without duplicates.
+ */
+var removeDuplicates = function (array) {
+    return array.filter(function (value, index, self) {
+        return self.indexOf(value) === index;
+    });
+};
+/**
+ * For a given range of numbers and a specific number,
+ * returns the percentile where that number falls in the range.
+ *
+ * @param numberToFind Number to find percentile for.
+ * @param numbers Data to calculate the percentile from.
+ * @returns Percentile of the number.
+ */
+var findPercentile = function (numberToFind, numbers) {
+    var percentileRange = Array.from(Array(101).keys()).filter(function (_) { return _ > 0; });
+    var percentiles = (0, percentile_1.default)(percentileRange, removeDuplicates(numbers));
+    var position = percentiles.reduce(function (prev, curr) {
+        return Math.abs(curr - numberToFind) < Math.abs(prev - numberToFind)
+            ? curr
+            : prev;
+    });
+    return percentileRange[percentiles.lastIndexOf(position)];
+};
+/**
+ * Returns workflow run statistics.
+ *
+ * @param runData Workflow runs data from GitHub.
+ * @param latestRunTime The latest workflow run's time (in milliseconds).
+ * @returns Workflow run statistics.
+ */
+var getWorkflowRunStats = function (runData, latestRunTime) {
+    var runTimes = runData.map(function (r) { return (0, datetime_1.diff)(r.created_at, r.updated_at); });
+    var max = Math.max.apply(Math, runTimes);
+    var min = Math.min.apply(Math, runTimes);
+    var avg = roundOff(runTimes.reduce(function (rt1, rt2) { return rt1 + rt2; }, 0) / runTimes.length);
+    var _a = (0, percentile_1.default)([99, 90, 50], runTimes), p99 = _a[0], p90 = _a[1], p50 = _a[2];
+    var percentile = findPercentile(latestRunTime, runTimes);
+    return {
+        min: min,
+        max: max,
+        avg: avg,
+        p99: p99,
+        p90: p90,
+        p50: p50,
+        percentile: percentile,
+    };
+};
+exports.getWorkflowRunStats = getWorkflowRunStats;
+
+
+/***/ }),
+
 /***/ 2876:
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"github-build-stats-action","version":"1.0.1","description":"GitHub Action workflow run trends","main":"dist/index.js","license":"MIT","private":true,"repository":{"type":"git","url":"https://github.com/getoslash/github-build-stats-action"},"scripts":{"build":"tsc && ncc build lib/main.js --license licenses.txt && npx rimraf lib/","test":"tape -r ts-node/register/transpile-only tests/**/*.test.ts","coverage":"nyc npm run test","lint":"tsc --noEmit && eslint --cache \\"**/*.ts\\"","lint:fix":"npm run lint -- --fix","preprepare":"husky install","prepare":"npm run build","release":"semantic-release"},"dependencies":{"@actions/core":"1.9.1","@actions/github":"5.0.0","@octokit/rest":"18.12.0","dayjs":"1.10.7","percentile":"1.6.0"},"devDependencies":{"@commitlint/cli":"15.0.0","@commitlint/config-conventional":"15.0.0","@semantic-release/commit-analyzer":"9.0.2","@semantic-release/exec":"6.0.3","@semantic-release/git":"10.0.1","@semantic-release/github":"8.0.2","@semantic-release/release-notes-generator":"10.0.3","@types/node":"16.4.10","@types/tape":"4.13.2","@typescript-eslint/eslint-plugin":"5.7.0","@typescript-eslint/parser":"5.7.0","@vercel/ncc":"0.34.0","cz-conventional-changelog":"3.3.0","eslint":"8.4.1","eslint-config-prettier":"8.3.0","eslint-plugin-import":"2.25.3","eslint-plugin-prettier":"4.0.0","git-notify":"0.2.3","hook-std":"2.0.0","husky":"7.0.4","lint-staged":"12.1.2","nock":"13.2.1","nyc":"15.1.0","prettier":"2.5.1","rimraf":"3.0.2","semantic-release":"18.0.1","tape":"5.3.2","ts-node":"10.4.0","typescript":"4.5.4"}}');
+module.exports = JSON.parse('{"name":"github-build-stats-action","version":"1.0.1","description":"GitHub Action workflow run trends","main":"dist/index.js","license":"MIT","private":true,"type":"commonjs","repository":{"type":"git","url":"https://github.com/getoslash/github-build-stats-action"},"scripts":{"build":"tsc && ncc build lib/main.js --license licenses.txt && npx rimraf lib/","test":"tape -r ts-node/register/transpile-only tests/**/*.test.ts","coverage":"nyc npm run test","lint":"tsc --noEmit && eslint --cache \\"**/*.ts\\"","lint:fix":"npm run lint -- --fix","preprepare":"husky install","prepare":"npm run build","release":"semantic-release"},"dependencies":{"@actions/core":"1.9.1","@actions/github":"5.0.0","@octokit/rest":"18.12.0","dayjs":"1.10.7","percentile":"1.6.0"},"devDependencies":{"@commitlint/cli":"15.0.0","@commitlint/config-conventional":"15.0.0","@semantic-release/commit-analyzer":"9.0.2","@semantic-release/exec":"6.0.3","@semantic-release/git":"10.0.1","@semantic-release/github":"8.0.2","@semantic-release/release-notes-generator":"10.0.3","@types/node":"16.4.10","@types/tape":"4.13.2","@typescript-eslint/eslint-plugin":"5.7.0","@typescript-eslint/parser":"5.7.0","@vercel/ncc":"0.34.0","cz-conventional-changelog":"3.3.0","eslint":"8.4.1","eslint-config-prettier":"8.3.0","eslint-plugin-import":"2.25.3","eslint-plugin-prettier":"4.0.0","git-notify":"0.2.3","hook-std":"2.0.0","husky":"7.0.4","lint-staged":"12.1.2","nock":"13.2.1","nyc":"15.1.0","prettier":"2.5.1","rimraf":"3.0.2","semantic-release":"18.0.1","tape":"5.3.2","ts-node":"10.4.0","typescript":"4.5.4"}}');
 
 /***/ }),
 
@@ -14238,7 +14238,6 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -14249,7 +14248,7 @@ const __dirname = path.dirname(__filename);
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __nccwpck_require__(3109);
+/******/ 	var __webpack_exports__ = __nccwpck_require__(1292);
 /******/ 	module.exports = __webpack_exports__;
 /******/ 	
 /******/ })()
