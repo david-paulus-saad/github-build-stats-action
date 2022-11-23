@@ -52,21 +52,29 @@ export const getWorkflowRuns = async (
   repository: {
     owner: string
     repo: string
-  }
-): Promise<WorkflowRunData> => {
+  },
+  repos: string
+): Promise<WorkflowRunData[]> => {
   const octokit = new Octokit({
     auth: githubToken,
     userAgent: USER_AGENT,
   })
-  const results = await octokit.paginate(
-    octokit.actions.listWorkflowRunsForRepo,
-    {
-      owner: repository.owner,
-      repo: repository.repo,
-      workflow_id: workflowId,
-      status: 'completed',
-      per_page: 100,
-    }
-  )
+  const results: WorkflowRunData[] = []
+  const repositories = repos.split(',')
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  repositories.forEach(async (repo) => {
+    const result = await octokit.paginate(
+      octokit.actions.listWorkflowRunsForRepo,
+      {
+        owner: repository.owner,
+        repo: repo,
+        status: 'completed',
+        per_page: 100,
+      }
+    )
+
+    results.push(result)
+  })
+
   return results
 }

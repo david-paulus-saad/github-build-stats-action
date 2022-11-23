@@ -20,6 +20,7 @@ export interface ActionOptions {
   workflowId: string | number
   /** (Optional) Pull request number. If this is not provided, attempts will be made to guess it. */
   pullRequestNumber?: number
+  repos: string
 }
 
 const PERCENTILE_HELP_LINK =
@@ -38,6 +39,7 @@ export async function run({
   context,
   workflowId,
   pullRequestNumber,
+  repos,
 }: ActionOptions): Promise<void | Array<string>> {
   try {
     core.debug(`GitHub context: ${JSON.stringify(context, null, 2)}`)
@@ -53,7 +55,12 @@ export async function run({
     }
     core.debug(`Repository: ${JSON.stringify(repository, null, 2)}`)
     const startFetch = hrtime.bigint()
-    const runData = await getWorkflowRuns(githubToken, workflowId, repository)
+    const runData = await getWorkflowRuns(
+      githubToken,
+      workflowId,
+      repository,
+      repos
+    )
     const endFetch = hrtime.bigint()
     core.debug(
       `Finished fetching ${runData.length} workflow runs from GitHub API: ${
@@ -126,6 +133,10 @@ if (require.main === module) {
 
   const context = github.context
 
+  const repos = core.getInput('repos', {
+    required: true,
+  })
+
   ;(async (): Promise<void> => {
     await run({
       githubToken,
@@ -134,6 +145,7 @@ if (require.main === module) {
       pullRequestNumber: pullRequestNumber
         ? parseInt(pullRequestNumber, 10)
         : undefined,
+      repos,
     })
   })()
 }
