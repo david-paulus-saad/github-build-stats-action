@@ -2,7 +2,11 @@ import { hrtime } from 'process'
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { diff, humanise } from './utils/datetime'
-import { getPullRequestNumber, getWorkflowRuns } from './utils/github'
+import {
+  getPullRequestNumber,
+  getWorkflowRuns,
+  WorkflowRunData,
+} from './utils/github'
 import { getWorkflowRunStats } from './utils/stats'
 import { getSpeedScore } from './utils/score'
 import { buildMarkdownTable } from './utils/markdown'
@@ -20,6 +24,7 @@ export interface ActionOptions {
   workflowId: string | number
   /** (Optional) Pull request number. If this is not provided, attempts will be made to guess it. */
   pullRequestNumber?: number
+
   repos: string
 }
 
@@ -55,61 +60,65 @@ export async function run({
     }
     core.debug(`Repository: ${JSON.stringify(repository, null, 2)}`)
     const startFetch = hrtime.bigint()
-    const runData = await getWorkflowRuns(
+    const runDataMultiple: WorkflowRunData[] = await getWorkflowRuns(
       githubToken,
       workflowId,
       repository,
       repos
     )
-    const endFetch = hrtime.bigint()
-    core.debug(
-      `Finished fetching ${runData.length} workflow runs from GitHub API: ${
-        Number(endFetch - startFetch) / 1000000
-      } milliseconds`
-    )
-    core.debug(`Worflow run data: ${JSON.stringify(runData, null, 2)}`)
-    const latestRunTime = diff(runData[0].created_at, runData[0].updated_at)
-    const runTimeStats = getWorkflowRunStats(runData, latestRunTime)
-    core.debug(
-      `Finished collecting build statistics: ${JSON.stringify(runTimeStats)}`
-    )
-    const outputTable = buildMarkdownTable([
-      [
-        'Fastest',
-        'Average',
-        `[p90](${PERCENTILE_HELP_LINK})`,
-        `[p99](${PERCENTILE_HELP_LINK})`,
-        'Slowest',
-      ],
-      [
-        runTimeStats.min,
-        runTimeStats.avg,
-        runTimeStats.p90,
-        runTimeStats.p99,
-        runTimeStats.max,
-      ].map(
-        (ms) =>
-          `${ms} ms (${humanise({
-            milliseconds: ms,
-          })})`
-      ),
-    ])
+
+    let commentBody: string[] = []
+    runDataMultiple.forEach((runData) => {
+      const endFetch = hrtime.bigint()
+      core.debug(
+        `Finished fetching ${runData.length} workflow runs from GitHub API: ${
+          Number(endFetch - startFetch) / 1000000
+        } milliseconds`
+      )
+      core.debug(`Worflow run data: ${JSON.stringify(runData, null, 2)}`)
+      const latestRunTime = diff(runData[0].created_at, runData[0].updated_at)
+      const runTimeStats = getWorkflowRunStats(runData, latestRunTime)
+      core.debug(
+        `Finished collecting build statistics: ${JSON.stringify(runTimeStats)}`
+      )
+      const outputTable = buildMarkdownTable([
+        [
+          'Fastest',
+          'Average',
+          `[p90](${PERCENTILE_HELP_LINK})`,
+          `[p99](${PERCENTILE_HELP_LINK})`,
+          'Slowest',
+        ],
+        [
+          runTimeStats.min,
+          runTimeStats.avg,
+          runTimeStats.p90,
+          runTimeStats.p99,
+          runTimeStats.max,
+        ].map(
+          (ms) =>
+            `${ms} ms (${humanise({
+              milliseconds: ms,
+            })})`
+        ),
+      ])
+      commentBody = [
+        `The workflow run took \`${latestRunTime}\` milliseconds (${humanise({
+          milliseconds: latestRunTime,
+        })}), and was faster than ${getSpeedScore(runTimeStats.percentile)} **${
+          100 - runTimeStats.percentile
+        }%** of the past ${runData.length} workflow runs.`,
+        `${outputTable}`,
+      ]
+      core.setOutput('stats', runTimeStats)
+    })
     const octokit = github.getOctokit(githubToken)
-    const commentBody = [
-      `The workflow run took \`${latestRunTime}\` milliseconds (${humanise({
-        milliseconds: latestRunTime,
-      })}), and was faster than ${getSpeedScore(runTimeStats.percentile)} **${
-        100 - runTimeStats.percentile
-      }%** of the past ${runData.length} workflow runs.`,
-      `${outputTable}`,
-    ]
     const newComment = octokit.rest.issues.createComment({
       ...repository,
       issue_number: prNumber,
       body: commentBody.join('\n'),
     })
     core.debug(`Create comment result: ${JSON.stringify(newComment, null, 2)}`)
-    core.setOutput('stats', runTimeStats)
     return commentBody
   } catch (error) {
     const { name, message } = error as Error

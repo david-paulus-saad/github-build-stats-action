@@ -11,5 +11,6 @@
     "resolveJsonModule": true,
     "importsNotUsedAsValues": "error",
     "outDir": "./lib"
-  }
+  },
+  "exclude": ["tests/*"]
 }

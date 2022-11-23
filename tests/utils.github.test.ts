@@ -64,10 +64,15 @@ test('🧪 getPullRequestNumber() should return PR number correctly', async (t) 
 test('🧪 getWorkflowRuns() should return workflow run data from GitHub', async (t) => {
   nock.disableNetConnect()
   mockGetWorkflowRuns(['data'])
-  const result = await getWorkflowRuns(FIXTURES.TOKEN, FIXTURES.WORKFLOW_ID, {
-    owner: FIXTURES.REPO_OWNER,
-    repo: FIXTURES.REPO_NAME,
-  })
+  const result = await getWorkflowRuns(
+    FIXTURES.TOKEN,
+    FIXTURES.WORKFLOW_ID,
+    {
+      owner: FIXTURES.REPO_OWNER,
+      repo: FIXTURES.REPO_NAME,
+    },
+    'david,boulis'
+  )
   t.deepEqual(result, ['data'], 'should mock GitHub API call correctly')
   nock.cleanAll()
   nock.enableNetConnect()
