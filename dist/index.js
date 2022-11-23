@@ -1,5 +1,5 @@
 import path from 'path';
-import {fileURLToPath} from 'url';
+import { fileURLToPath } from 'url';
 
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
@@ -5778,7 +5778,7 @@ exports.Deprecation = Deprecation;
 "use strict";
 
 
-var iconvLite = __nccwpck_require__(9032);
+var iconvLite = __nccwpck_require__(7813);
 
 // Expose to the world
 module.exports.O = convert;
@@ -5863,7 +5863,7 @@ function checkEncoding(name) {
 
 /***/ }),
 
-/***/ 9695:
+/***/ 8810:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
@@ -6468,7 +6468,7 @@ function findIdx(table, val) {
 
 /***/ }),
 
-/***/ 1386:
+/***/ 6:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
@@ -6514,7 +6514,7 @@ module.exports = {
 
     'shiftjis': {
         type: '_dbcs',
-        table: function() { return __nccwpck_require__(7014) },
+        table: function() { return __nccwpck_require__(4965) },
         encodeAdd: {'\u00a5': 0x5C, '\u203E': 0x7E},
         encodeSkipVals: [{from: 0xED40, to: 0xF940}],
     },
@@ -6531,7 +6531,7 @@ module.exports = {
 
     'eucjp': {
         type: '_dbcs',
-        table: function() { return __nccwpck_require__(1532) },
+        table: function() { return __nccwpck_require__(9750) },
         encodeAdd: {'\u00a5': 0x5C, '\u203E': 0x7E},
     },
 
@@ -6558,13 +6558,13 @@ module.exports = {
     '936': 'cp936',
     'cp936': {
         type: '_dbcs',
-        table: function() { return __nccwpck_require__(3336) },
+        table: function() { return __nccwpck_require__(4904) },
     },
 
     // GBK (~22000 chars) is an extension of CP936 that added user-mapped chars and some other.
     'gbk': {
         type: '_dbcs',
-        table: function() { return (__nccwpck_require__(3336).concat)(__nccwpck_require__(4346)) },
+        table: function() { return (__nccwpck_require__(4904).concat)(__nccwpck_require__(9429)) },
     },
     'xgbk': 'gbk',
     'isoir58': 'gbk',
@@ -6576,8 +6576,8 @@ module.exports = {
     // http://www.khngai.com/chinese/charmap/tblgbk.php?page=0
     'gb18030': {
         type: '_dbcs',
-        table: function() { return (__nccwpck_require__(3336).concat)(__nccwpck_require__(4346)) },
-        gb18030: function() { return __nccwpck_require__(6258) },
+        table: function() { return (__nccwpck_require__(4904).concat)(__nccwpck_require__(9429)) },
+        gb18030: function() { return __nccwpck_require__(5893) },
         encodeSkipVals: [0x80],
         encodeAdd: {'€': 0xA2E3},
     },
@@ -6592,7 +6592,7 @@ module.exports = {
     '949': 'cp949',
     'cp949': {
         type: '_dbcs',
-        table: function() { return __nccwpck_require__(7348) },
+        table: function() { return __nccwpck_require__(3940) },
     },
 
     'cseuckr': 'cp949',
@@ -6633,14 +6633,14 @@ module.exports = {
     '950': 'cp950',
     'cp950': {
         type: '_dbcs',
-        table: function() { return __nccwpck_require__(4284) },
+        table: function() { return __nccwpck_require__(7507) },
     },
 
     // Big5 has many variations and is an extension of cp950. We use Encoding Standard's as a consensus.
     'big5': 'big5hkscs',
     'big5hkscs': {
         type: '_dbcs',
-        table: function() { return (__nccwpck_require__(4284).concat)(__nccwpck_require__(3480)) },
+        table: function() { return (__nccwpck_require__(7507).concat)(__nccwpck_require__(3768)) },
         encodeSkipVals: [
             // Although Encoding Standard says we should avoid encoding to HKSCS area (See Step 1 of
             // https://encoding.spec.whatwg.org/#index-big5-pointer), we still do it to increase compatibility with ICU.
@@ -6664,7 +6664,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 2733:
+/***/ 9541:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
@@ -6673,15 +6673,15 @@ module.exports = {
 // Update this array if you add/rename/remove files in this directory.
 // We support Browserify by skipping automatic module discovery and requiring modules directly.
 var modules = [
-    __nccwpck_require__(2376),
-    __nccwpck_require__(9557),
-    __nccwpck_require__(1155),
-    __nccwpck_require__(1644),
-    __nccwpck_require__(6657),
-    __nccwpck_require__(1080),
-    __nccwpck_require__(1012),
-    __nccwpck_require__(9695),
-    __nccwpck_require__(1386),
+    __nccwpck_require__(934),
+    __nccwpck_require__(4927),
+    __nccwpck_require__(8787),
+    __nccwpck_require__(6208),
+    __nccwpck_require__(4899),
+    __nccwpck_require__(9320),
+    __nccwpck_require__(1664),
+    __nccwpck_require__(8810),
+    __nccwpck_require__(6),
 ];
 
 // Put all encoding/alias/codec definitions to single object and export it.
@@ -6695,7 +6695,7 @@ for (var i = 0; i < modules.length; i++) {
 
 /***/ }),
 
-/***/ 2376:
+/***/ 934:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
@@ -6901,7 +6901,7 @@ InternalDecoderCesu8.prototype.end = function() {
 
 /***/ }),
 
-/***/ 6657:
+/***/ 4899:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
@@ -6981,7 +6981,7 @@ SBCSDecoder.prototype.end = function() {
 
 /***/ }),
 
-/***/ 1012:
+/***/ 1664:
 /***/ ((module) => {
 
 "use strict";
@@ -7439,7 +7439,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 1080:
+/***/ 9320:
 /***/ ((module) => {
 
 "use strict";
@@ -7626,7 +7626,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 1155:
+/***/ 8787:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
@@ -7831,7 +7831,7 @@ function detectEncoding(bufs, defaultEncoding) {
 
 /***/ }),
 
-/***/ 9557:
+/***/ 4927:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
@@ -8158,7 +8158,7 @@ function detectEncoding(bufs, defaultEncoding) {
 
 /***/ }),
 
-/***/ 1644:
+/***/ 6208:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
@@ -8456,7 +8456,7 @@ Utf7IMAPDecoder.prototype.end = function() {
 
 /***/ }),
 
-/***/ 7961:
+/***/ 3824:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -8516,7 +8516,7 @@ StripBOMWrapper.prototype.end = function() {
 
 /***/ }),
 
-/***/ 9032:
+/***/ 7813:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
@@ -8524,7 +8524,7 @@ StripBOMWrapper.prototype.end = function() {
 
 var Buffer = (__nccwpck_require__(5118).Buffer);
 
-var bomHandling = __nccwpck_require__(7961),
+var bomHandling = __nccwpck_require__(3824),
     iconv = module.exports;
 
 // All codecs and aliases are kept here, keyed by encoding name/alias.
@@ -8582,7 +8582,7 @@ iconv.fromEncoding = iconv.decode;
 iconv._codecDataCache = {};
 iconv.getCodec = function getCodec(encoding) {
     if (!iconv.encodings)
-        iconv.encodings = __nccwpck_require__(2733); // Lazy load all encoding definitions.
+        iconv.encodings = __nccwpck_require__(9541); // Lazy load all encoding definitions.
     
     // Canonicalize encoding name: strip all non-alphanumeric chars and appended year.
     var enc = iconv._canonicalizeEncoding(encoding);
@@ -8663,7 +8663,7 @@ iconv.enableStreamingAPI = function enableStreamingAPI(stream_module) {
         return;
 
     // Dependency-inject stream module to create IconvLite stream classes.
-    var streams = __nccwpck_require__(6869)(stream_module);
+    var streams = __nccwpck_require__(9868)(stream_module);
 
     // Not public API yet, but expose the stream classes.
     iconv.IconvLiteEncoderStream = streams.IconvLiteEncoderStream;
@@ -8702,7 +8702,7 @@ if (false) {}
 
 /***/ }),
 
-/***/ 6869:
+/***/ 9868:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
@@ -14127,11 +14127,11 @@ module.exports = require("zlib");
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"github-build-stats-action","version":"1.0.1","description":"GitHub Action workflow run trends","main":"dist/index.js","license":"MIT","private":true,"repository":{"type":"git","url":"https://github.com/getoslash/github-build-stats-action"},"scripts":{"build":"tsc && ncc build lib/main.js --license licenses.txt && npx rimraf lib/","test":"tape -r ts-node/register/transpile-only tests/**/*.test.ts","coverage":"nyc npm run test","lint":"tsc --noEmit && eslint --cache \\"**/*.ts\\"","lint:fix":"npm run lint -- --fix","preprepare":"husky install","prepare":"npm run build","release":"semantic-release"},"dependencies":{"@actions/core":"1.9.1","@actions/github":"5.0.0","@octokit/rest":"18.12.0","dayjs":"1.10.7","percentile":"1.6.0"},"devDependencies":{"@commitlint/cli":"15.0.0","@commitlint/config-conventional":"15.0.0","@semantic-release/commit-analyzer":"9.0.2","@semantic-release/exec":"6.0.3","@semantic-release/git":"10.0.1","@semantic-release/github":"8.0.2","@semantic-release/release-notes-generator":"10.0.3","@types/node":"16.4.10","@types/tape":"4.13.2","@typescript-eslint/eslint-plugin":"5.7.0","@typescript-eslint/parser":"5.7.0","@vercel/ncc":"0.33.0","cz-conventional-changelog":"3.3.0","eslint":"8.4.1","eslint-config-prettier":"8.3.0","eslint-plugin-import":"2.25.3","eslint-plugin-prettier":"4.0.0","git-notify":"0.2.3","hook-std":"2.0.0","husky":"7.0.4","lint-staged":"12.1.2","nock":"13.2.1","nyc":"15.1.0","prettier":"2.5.1","rimraf":"3.0.2","semantic-release":"18.0.1","tape":"5.3.2","ts-node":"10.4.0","typescript":"4.5.4"}}');
+module.exports = JSON.parse('{"name":"github-build-stats-action","version":"1.0.1","description":"GitHub Action workflow run trends","main":"dist/index.js","license":"MIT","private":true,"repository":{"type":"git","url":"https://github.com/getoslash/github-build-stats-action"},"scripts":{"build":"tsc && ncc build lib/main.js --license licenses.txt && npx rimraf lib/","test":"tape -r ts-node/register/transpile-only tests/**/*.test.ts","coverage":"nyc npm run test","lint":"tsc --noEmit && eslint --cache \\"**/*.ts\\"","lint:fix":"npm run lint -- --fix","preprepare":"husky install","prepare":"npm run build","release":"semantic-release"},"dependencies":{"@actions/core":"1.9.1","@actions/github":"5.0.0","@octokit/rest":"18.12.0","dayjs":"1.10.7","percentile":"1.6.0"},"devDependencies":{"@commitlint/cli":"15.0.0","@commitlint/config-conventional":"15.0.0","@semantic-release/commit-analyzer":"9.0.2","@semantic-release/exec":"6.0.3","@semantic-release/git":"10.0.1","@semantic-release/github":"8.0.2","@semantic-release/release-notes-generator":"10.0.3","@types/node":"16.4.10","@types/tape":"4.13.2","@typescript-eslint/eslint-plugin":"5.7.0","@typescript-eslint/parser":"5.7.0","@vercel/ncc":"0.34.0","cz-conventional-changelog":"3.3.0","eslint":"8.4.1","eslint-config-prettier":"8.3.0","eslint-plugin-import":"2.25.3","eslint-plugin-prettier":"4.0.0","git-notify":"0.2.3","hook-std":"2.0.0","husky":"7.0.4","lint-staged":"12.1.2","nock":"13.2.1","nyc":"15.1.0","prettier":"2.5.1","rimraf":"3.0.2","semantic-release":"18.0.1","tape":"5.3.2","ts-node":"10.4.0","typescript":"4.5.4"}}');
 
 /***/ }),
 
-/***/ 3480:
+/***/ 3768:
 /***/ ((module) => {
 
 "use strict";
@@ -14139,7 +14139,7 @@ module.exports = JSON.parse('[["8740","䏰䰲䘃䖦䕸𧉧䵷䖳𧲱䳢𧳅㮕�
 
 /***/ }),
 
-/***/ 3336:
+/***/ 4904:
 /***/ ((module) => {
 
 "use strict";
@@ -14147,7 +14147,7 @@ module.exports = JSON.parse('[["0","\\u0000",127,"€"],["8140","丂丄丅丆丏
 
 /***/ }),
 
-/***/ 7348:
+/***/ 3940:
 /***/ ((module) => {
 
 "use strict";
@@ -14155,7 +14155,7 @@ module.exports = JSON.parse('[["0","\\u0000",127],["8141","갂갃갅갆갋",4,"�
 
 /***/ }),
 
-/***/ 4284:
+/***/ 7507:
 /***/ ((module) => {
 
 "use strict";
@@ -14163,7 +14163,7 @@ module.exports = JSON.parse('[["0","\\u0000",127],["a140","　，、。．‧；
 
 /***/ }),
 
-/***/ 1532:
+/***/ 9750:
 /***/ ((module) => {
 
 "use strict";
@@ -14171,7 +14171,7 @@ module.exports = JSON.parse('[["0","\\u0000",127],["8ea1","｡",62],["a1a1","　
 
 /***/ }),
 
-/***/ 6258:
+/***/ 5893:
 /***/ ((module) => {
 
 "use strict";
@@ -14179,7 +14179,7 @@ module.exports = JSON.parse('{"uChars":[128,165,169,178,184,216,226,235,238,244,
 
 /***/ }),
 
-/***/ 4346:
+/***/ 9429:
 /***/ ((module) => {
 
 "use strict";
@@ -14187,7 +14187,7 @@ module.exports = JSON.parse('[["a140","",62],["a180","",32],["a240","",
 
 /***/ }),
 
-/***/ 7014:
+/***/ 4965:
 /***/ ((module) => {
 
 "use strict";
@@ -14240,8 +14240,6 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 	
 
 const __filename = fileURLToPath(import.meta.url);
-
-// 👇️ "/home/john/Desktop/javascript"
 const __dirname = path.dirname(__filename);
 
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
